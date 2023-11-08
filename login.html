@@ -9,8 +9,12 @@
             text-align: center;
         }
 
-        .form{
-            text-align: center;
+        .name{
+             margin-right: 90px;
+        }
+
+        .password{
+             margin-right: 60px;
         }
     </style>
     <body>
@@ -18,15 +22,17 @@
             <h2><p>Καλώς ήρθατε στη Ναυμαχία</p></h2>
             <br>
             <h4>Εισάγεται το όνομα χρήστη και τον κωδικό για να συνδεθείται στο παιχνίδι</h4>
-            <div class="form">
-                <h5>Όνομα χρήστη</h5>
-                <input type="text">
+            <div>
+                <h5 class="name">Όνομα χρήστη</h5>
+                <input type="text" id="name">
                 <br>
-                <h5>Κωδικός πρόσβασης</h5>
-                <input type="text">
+                <h5 class="password">Κωδικός πρόσβασης</h5>
+                <input type="password" id="password">
             </div>
             <br>
-            <input type="button" value="Σύνδεση">
+            <form action="login.php">
+                <input type="button" value="Σύνδεση" onclick="login()">
+            </form>
         </div>
     </body>
 </html>
