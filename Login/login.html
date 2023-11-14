@@ -9,7 +9,7 @@
             text-align: center;
         }
 
-        .name{
+        .username{
              margin-right: 90px;
         }
 
@@ -23,16 +23,16 @@
             <br>
             <h4>Εισάγεται το όνομα χρήστη και τον κωδικό για να συνδεθείται στο παιχνίδι</h4>
             <div>
-                <h5 class="name">Όνομα χρήστη</h5>
+                <h5 class="username">Όνομα χρήστη</h5>
                 <input type="text" id="name">
                 <br>
                 <h5 class="password">Κωδικός πρόσβασης</h5>
                 <input type="password" id="password">
             </div>
             <br>
-            <form action="login.php" method="get">
-                <input type="button" name="button" value="Σύνδεση">
-            </form>
+            <input type="button" name="button" onclick="login()" value="Σύνδεση"/>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="logincheck.js"></script>
     </body>
 </html>
