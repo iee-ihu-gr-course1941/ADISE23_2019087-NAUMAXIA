@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <head>
         <title>Ναυμαχία</title>
     </head>
@@ -16,6 +16,11 @@
         .password{
              margin-right: 60px;
         }
+        .login{
+            text-align: center;
+            font-size: large;
+            font-weight: bold;
+        }
     </style>
     <body>
         <div class="menu">
@@ -30,7 +35,7 @@
                 <input type="password" id="password">
             </div>
             <br>
-            <input type="button" name="button" onclick="login()" value="Σύνδεση"/>
+            <input type="button" class="login" name="button" onclick="login()" value="Σύνδεση"/>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="logincheck.js"></script>

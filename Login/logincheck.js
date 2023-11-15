@@ -8,9 +8,10 @@ function login() {
         data: {username: username, password: password},
         success: function (response) {
             if (response === "success") {
-                alert("Επιτυχής σύνδεση!");
+                alert("Επιτυχής σύνδεση!");			
+				window.location.assign("~/rules.html");
             } else {
-                alert("Ο χρήστης δεν υπάρχει ή λάθος στοιχεία.");
+                alert("Ο χρήστης δεν υπάρχει ή δόθηκαν λάθος στοιχεία.");
             }
         }
     });
