@@ -1,7 +1,7 @@
 <?php
 // Σύνδεση στη βάση δεδομένων
-$servername = 'localhost';
-$username = 'root';
+$servername = 'Naumaxia';
+$username = 'iee2019087';
 $password ='';
 $dbname = 'login';
 
