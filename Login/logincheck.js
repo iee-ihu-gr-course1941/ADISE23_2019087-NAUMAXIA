@@ -10,7 +10,7 @@ function login() {
             if (response === "success") {
                 alert("Επιτυχής σύνδεση!");	
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', '~/rules.html', true);
+                xhr.open('GET', '../Rules/rules.html', true);
                 xhr.send();
             } else {
                 alert("Ο χρήστης δεν υπάρχει ή δόθηκαν λάθος στοιχεία.");

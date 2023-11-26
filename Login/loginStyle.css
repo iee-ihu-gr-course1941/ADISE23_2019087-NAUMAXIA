@@ -1,0 +1,21 @@
+html{background-image: url('home_photo.jpeg');}
+.menu{
+    text-align: center;
+    background-color: rgb(235, 229, 229);
+    margin: 10% 25% 25% 25%;
+    border-radius: 5% 5% 5% 5%;
+}
+
+.username{
+     margin-right: 90px;
+}
+
+.password{
+     margin-right: 60px;
+}
+.login{
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 5%;
+}

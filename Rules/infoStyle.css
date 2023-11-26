@@ -1,0 +1,28 @@
+html{background-image: url('photoRules.jpeg');}
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+}
+h1, h2, h5 {
+    text-align: center;
+}
+ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+}
+
+.start{
+    height: 50px;
+    width: 100px;
+    margin-left: 40%;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    background-color: aquamarine;
+}
+#Rules{
+    background-color: bisque;
+    border-radius: 5%;
+    padding: 5% 5% 5% 5%;
+}
