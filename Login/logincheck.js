@@ -1,17 +1,15 @@
 function login() {
     var username = $(".username").val();
-    var password = $(".password").val();
 
     $.ajax({
         type: "POST",
         url: "login.php",
-        data: {username: username, password: password},
+        data: {username: username},
         success: function (response) {
             if (response === "success") {
                 alert("Επιτυχής σύνδεση!");	
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '../Rules/rules.html', true);
-                xhr.send();
+                var x = '../Rules/rules.html'
+                window.location.assign(x);
             } else {
                 alert("Ο χρήστης δεν υπάρχει ή δόθηκαν λάθος στοιχεία.");
             }

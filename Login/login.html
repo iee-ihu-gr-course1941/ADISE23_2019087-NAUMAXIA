@@ -2,23 +2,23 @@
 <html lang="en">
     <meta charset="UTF-8">
     <head>
-        <title>Ναυμαχία</title>
+        <title>Ναυμαχία - Σύνδεση</title>
     </head>
     <link rel="stylesheet" type="text/css" href="loginStyle.css" />
     <body>
         <div class="menu">
             <h2 style="padding-top: 5%;"><p>Καλώς ήρθατε στη Ναυμαχία</p></h2>
             <br>
-            <h4>Εισάγεται το όνομα χρήστη και τον κωδικό για να συνδεθείται στο παιχνίδι</h4>
+            <h4>Εισάγεται το όνομα χρήστη για να συνδεθείται στο παιχνίδι</h4>
             <div>
                 <h5 class="username">Όνομα χρήστη</h5>
                 <input type="text" id="name">
-                <br>
-                <h5 class="password">Κωδικός πρόσβασης</h5>
-                <input type="password" id="password">
             </div>
             <br>
-            <input style="background-color: bisque;" type="button" class="login" name="button" onclick="login()" value="Σύνδεση"/>
+            <form action="/Login/login.php">
+                <input style="background-color: bisque;" type="button" 
+                class="login" name="button" onclick="login()" value="Σύνδεση"/>
+            </form>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="logincheck.js"></script>

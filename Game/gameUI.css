@@ -14,10 +14,59 @@ div#titleName{
 div#boards{
     background-color:beige;
     width: 100%;
-    height: 450px;
+    height: 500px;
 }
 
-h4#infoText{
+h3#infoText{
     text-align: center;
     padding-top: 5px;
+    display: flex; 
+    justify-content: center;
+}
+
+div#form{
+    text-align: center;
+}
+
+div#tableShips{
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+}
+
+#complete{
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+table{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    width: 25%;
+    height: 320px;
+}
+
+td{
+    border: 1px solid black;
+    padding: 13px;
+}
+
+tr{
+    width: 100%;
+    height: 100%;
+}
+
+div#startButton{
+    margin-top: 10px;
+    display: flex; 
+    justify-content: center;
+}
+
+#start{
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
 }
