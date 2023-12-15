@@ -1,6 +1,12 @@
 function login() {
     var username = $(".username").val();
 
+    var usernameTrimmed = username.trim();
+    if (usernameTrimmed == " "){
+        alert("Δεν δόθηκε όνομα χρήστη.");
+        return;
+    } 
+
     $.ajax({
         type: 'POST',
         url: '/login.php',
