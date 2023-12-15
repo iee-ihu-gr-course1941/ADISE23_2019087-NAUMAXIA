@@ -2,8 +2,8 @@ function login() {
     var username = $(".username").val();
 
     $.ajax({
-        type: "POST",
-        url: "login.php",
+        type: 'POST',
+        url: '/login.php',
         data: {username: username},
         success: function (response) {
             if (response === "success") {
