@@ -9,7 +9,7 @@ function login() {
 
     $.ajax({
         type: 'POST',
-        url: '/login.php',
+        url: 'https://users.iee.ihu.gr/~iee2019087/ADISE23_2019087-NAUMAXIA/Login/login.php',
         data: {username: username},
         success: function (response) {
             if (response === "success") {
