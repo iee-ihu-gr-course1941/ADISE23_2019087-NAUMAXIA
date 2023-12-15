@@ -8,7 +8,7 @@ function login() {
         success: function (response) {
             if (response === "success") {
                 alert("Επιτυχής σύνδεση!");	
-                var x = '../Rules/rules.html'
+                var x = '../Game/game.html'
                 window.location.assign(x);
             } else {
                 alert("Ο χρήστης δεν υπάρχει ή δόθηκαν λάθος στοιχεία.");
