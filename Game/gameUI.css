@@ -47,6 +47,8 @@ table{
     margin-top: 10px;
     width: 25%;
     height: 320px;
+    margin-left: 400px;
+    margin-right: 50px;
 }
 
 td{
@@ -69,4 +71,15 @@ div#startButton{
     text-align: center;
     font-size: large;
     font-weight: bold;
+}
+
+div#tableShips{
+    display: relative; 
+    justify-content: center;
+}
+
+div#shipNames{
+    display: absolute;
+    justify-content: right;
+    margin-left: 100px;
 }
