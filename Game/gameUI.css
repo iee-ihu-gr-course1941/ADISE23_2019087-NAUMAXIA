@@ -38,6 +38,7 @@ div#tableShips{
     text-align: center;
     font-size: large;
     font-weight: bold;
+    background-color:ghostwhite;
 }
 
 table{
@@ -71,6 +72,7 @@ div#startButton{
     text-align: center;
     font-size: large;
     font-weight: bold;
+    background-color:lavenderblush;
 }
 
 div#tableShips{
@@ -82,4 +84,7 @@ div#shipNames{
     display: absolute;
     justify-content: right;
     margin-left: 100px;
+    border-style: dotted;
+    padding-right: 10px;
+    background-color:lightcyan;
 }
