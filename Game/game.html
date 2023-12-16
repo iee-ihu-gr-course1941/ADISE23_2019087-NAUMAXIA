@@ -11,22 +11,11 @@
             <div id="form">
                 <h3 id="infoText">Να προσθέσει αρχικά ο πρώτος παίχτης τα πλοία του στο ταμπλό. Μόλις τα προσθέσει  
                     να πατήσει το κουμπί "Ολοκλήρωση". <br> Μόλις το κάνει ο δεύτερος παίχτης να προσθέσει τα 
-                    δικά του πλοία. Θα πρέπει αντοίστιχα να επιλέξουν τους αριθμούς 1 και 2. 
-                    <br> Όποτε είστε έτοιμοι πατήστε το κουμπί "Εκκίνηση"</h3>
+                    δικά του πλοία. Όποτε είστε έτοιμοι πατήστε το κουμπί "Εκκίνηση"</h3>
                 
                 <form action="/game.php">
                     <label for="players">Παίχτης:</label>
-                    <select name="players" id="players">
-                        <option value="first">1</option>
-                        <option value="second">2</option>
-                    </select>
-                    <label for="ships">Πλοίο:</label>
-                    <select name="ships" id="ships">
-                        <option value="first">1</option>
-                        <option value="second">2</option>
-                        <option value="t">1</option>
-                        <option value="f">2</option>
-                    </select>
+                    <input type="text" id="name">
                     <br><br>
                     <input type="submit" id="complete" value="Ολοκλήρωση">
                 </form>
