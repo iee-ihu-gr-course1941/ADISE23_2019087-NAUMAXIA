@@ -1,8 +1,8 @@
 <?php
 // Σύνδεση στη βάση δεδομένων
-$servername = 'Naumaxia';
-$username = 'iee2019087';
-$password ='';
+$host = 'localhost';
+$username = $DB_USER;
+$password = '';
 $dbname = 'login';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -11,10 +11,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Σφάλμα Σύνδεσης: " . $conn->connect_error);
 }
-
-// Λήψη δεδομένων από τη φόρμα
-$username = $_POST['username'];
-$password = $_POST['password'];
 
 // Εκτέλεση ερωτήματος SQL για έλεγχο ταυτοποίησης
 $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
