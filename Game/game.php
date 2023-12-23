@@ -45,12 +45,12 @@
         public function attackCell($row, $col) {
             // Elegxos an h epithesi einai ektos oriwn
             if ($row < 0 || $col < 0 || $row >= 10 || $col >= 10) {
-                return "Mh egkiri eisagwgi keliou";
+                return "Mh egkiri eisagwgi keliou\n";
             }
     
             // Elegxos an sto sigkekrimeno keli exei ginei epithesi
             if ($this->board[$row][$col] == -1) {
-                return "Exeis hdh epitethei auto to keli";
+                return "Exeis hdh epitethei auto to keli\n";
             }
     
             // Orise to keli oti exei epitethei
@@ -58,9 +58,9 @@
     
             // Elegxos an xtypaei to karavi
             if ($this->board[$row][$col] == 1) {
-                return "Epityxhs epithesi!";
+                return "Epityxhs epithesi!\n";
             } else {
-                return "Astoxia!";
+                return "Astoxia!\n";
             }
         }
 

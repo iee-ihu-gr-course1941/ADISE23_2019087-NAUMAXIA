@@ -1,7 +1,7 @@
 <?php
 
 function connectToDatabase(){
-    // Σύνδεση στη βάση δεδομένων
+    // Syndesi sti vasi dedomenwn
     $host = 'localhost';
     $username = 'root';
     $password = '';
@@ -12,15 +12,15 @@ function connectToDatabase(){
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        exit("Error connecting to database: " . $e->getMessage());
+        exit("Sfalma sti syndesi vasis dedoemnwn: " . $e->getMessage());
     }
 }
 
-// Εισαγωγή username από τον χρήστη
+// Eisagwgi username apo ton xristi
 echo "Give username: ";
 $username = trim(fgets(STDIN));
 
-// Έλεγχος αν υπάρχει το username στον πίνακα 'users'
+// Elegxos an yparxei to username ston pinaka 'users'
 try {
     $pdo = connectToDatabase();
 
@@ -31,11 +31,11 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        echo "Success authentication\n";
+        echo "Epityxhs syndesi\n";
     } else {
-        echo "The user does not exist\n";
+        echo "O xristis den yparxei\n";
     }
 } catch (PDOException $e) {
-    exit("Error: " . $e->getMessage());
+    exit("Sfalma: " . $e->getMessage());
 }
 ?>
