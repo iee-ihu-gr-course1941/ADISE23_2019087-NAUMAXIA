@@ -45,7 +45,7 @@
         public function attackCell($row, $col) {
             // Elegxos an h epithesi einai ektos oriwn
             if ($row < 0 || $col < 0 || $row >= 10 || $col >= 10) {
-                return "Invalid cell coordinates.";
+                return "Mh egkiri eisagwgi keliou";
             }
     
             // Elegxos an sto sigkekrimeno keli exei ginei epithesi
