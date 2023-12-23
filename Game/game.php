@@ -1,6 +1,7 @@
 <?php
     class BattleshipGame {
         private $board;
+        private $currentPlayer;
     
         public function __construct() {
             // Gemisma enos adeiou 10x10 pinaka 
@@ -62,7 +63,21 @@
                 return "Astoxia!";
             }
         }
+
+        // Epistrefei poios paixths exei seira na paixei
+        public function turnPlayer(){
+            return $this->currentPlayer;
+        }
+
+        // Allagh seira paixth
+        public function switchTurn(){
+            if ($this->currentPlayer == 1) $this->currentPlayer = 1; 
+            else $this->currentPlayer = 2;
+        }
     }
 
-    
+    // Dimiourgia neou paixnidiou
+    $game = new BattleshipGame();
+
+
 ?>
