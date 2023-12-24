@@ -17,7 +17,7 @@ function connectToDatabase(){
 }
 
 // Eisagwgi username apo ton xristi
-echo "Give username: ";
+echo "Dwse username: ";
 $username = trim(fgets(STDIN));
 
 // Elegxos an yparxei to username ston pinaka 'users'
@@ -32,9 +32,10 @@ try {
 
     if ($user) {
         echo "Epityxhs syndesi\n";
-    } else {
-        echo "O xristis den yparxei\n";
-    }
+        session_start();
+        if (!isset($_SESSION['player_name'])) $_SESSION['player_name'] = $username;
+    } else echo "O xristis den yparxei\n";
+    
 } catch (PDOException $e) {
     exit("Sfalma: " . $e->getMessage());
 }
