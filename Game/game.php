@@ -26,7 +26,7 @@
                 public function displayAvailableShips() {
                     
                     // Elegxos poios paixths einai
-                    if ($this->currentPlayer == 1){
+                    if ($this->currentPlayer === 1){
                         $player = $_SESSION['player1_name'];
                         echo "$player, Diathesima ploia:\n";
             
@@ -50,7 +50,7 @@
                 public function placeAllShips() {
 
                     // Elegxos poios paixths einai
-                   if ($this->currentPlayer == 1) $player = $_SESSION['player1_name'];
+                   if ($this->currentPlayer === 1) $player = $_SESSION['player1_name'];
                    else $player = $_SESSION['player2_name'];
                    
                    // Klisi methodou startPlacing()
@@ -93,19 +93,19 @@
             // Elegxos an to ploio einai ektos oriwn
             if ($row < 0 || $col < 0 || $row >= 10 || $col >= 10) return false;
 
-            if ($orientation == 'h' && $col + $size > 10) return false;
-            elseif ($orientation == 'v' && $row + $size > 10) return false;          
+            if ($orientation === 'h' && $col + $size > 10) return false;
+            elseif ($orientation === 'v' && $row + $size > 10) return false;          
     
             // Elegxos an kapoio apo ta kelia exei hdh timh
             for ($i = 0; $i < $size; $i++) {
-                if ($orientation == 'h' && $this->board[$row][$col + $i] == 1) return false;
-                elseif ($orientation == 'v' && $this->board[$row + $i][$col] == 1) return false;             
+                if ($orientation === 'h' && $this->board[$row][$col + $i] == 1) return false;
+                elseif ($orientation === 'v' && $this->board[$row + $i][$col] == 1) return false;             
             }
     
             // Eisagwgi ploiou stno pinaka
             for ($i = 0; $i < $size; $i++) {
-                if ($orientation == 'h') $this->board[$row][$col + $i] = 1;
-                elseif ($orientation == 'v') $this->board[$row + $i][$col] = 1;               
+                if ($orientation === 'h') $this->board[$row][$col + $i] = 1;
+                elseif ($orientation === 'v') $this->board[$row + $i][$col] = 1;               
             }
     
             return true;
@@ -113,14 +113,14 @@
 
         // Allagh seira paixth
         public function switchTurn(){
-            if ($this->currentPlayer == 1) $this->currentPlayer = 1; 
+            if ($this->currentPlayer === 1) $this->currentPlayer = 1; 
             else $this->currentPlayer = 2;
         }
 
         public function startGame(){
             
             // Elegxos poios paixths einai
-            if ($this->currentPlayer == 1) $player = $_SESSION['player1_name'];
+            if ($this->currentPlayer === 1) $player = $_SESSION['player1_name'];
             else $player = $_SESSION['player2_name'];
 
             // Klisi methodou startAttack()
@@ -158,7 +158,7 @@
             
     
             // Elegxos an sto sigkekrimeno keli exei ginei epithesi
-            if ($this->board[$row][$col] == -1) {
+            if ($this->board[$row][$col] === -1) {
                 echo "Exeis hdh epitethei auto to keli. Epanalipsi epithesis.\n";
                 return false;
             }
@@ -168,7 +168,7 @@
             $this->board[$row][$col] = -1;
     
             // Elegxos an xtypaei to karavi
-            if ($this->board[$row][$col] == 1) echo "Epityxhs epithesi!\n";
+            if ($this->board[$row][$col] === 1) echo "Epityxhs epithesi!\n";
             else echo "Astoxia!\n";
 
             return true;
@@ -212,7 +212,7 @@
             foreach ($playerShips[$player] as $shipRow) {
                 foreach ($shipRow as $cell) {
                     // An vrethei keli iso me 1 tote den xtyphthikan plhrws ola ta ploia
-                    if ($cell == 1) return false;                   
+                    if ($cell === 1) return false;                   
                 }
             }
             // An den vrethei kapoio gemato keli tote epistrefei pws xtyphthikan ola ta ploia
@@ -227,9 +227,12 @@
     session_start();
 
     // Anamoni mexri na syndethei o 1os paixths
-    do{
-        if (!isset($_SESSION['player1_name'])) $_SESSION['player1_name'] = $_SESSION['player_name'];
-    } while (!isset($_SESSION['player1_name']));
+    while (true){
+        if (!isset($_SESSION['player1_name'])) {
+            $_SESSION['player1_name'] = $_SESSION['player_name'];
+            break;
+        }
+    } 
 
     // Emfanisi kai topothetisi ploiwn apo ton paixth 1
     $game->displayAvailableShips();
@@ -242,9 +245,12 @@
     echo("Anamoni syndesis 2ou paixth\n");
 
     // Anamoni mexri na syndethei o 2os paixths
-    do{
-        if (!isset($_SESSION['player2_name'])) $_SESSION['player2_name'] = $_SESSION['player_name'];
-    } while (!isset($_SESSION['player2_name']));
+    while (true){
+        if (!isset($_SESSION['player2_name'])) {
+            $_SESSION['player2_name'] = $_SESSION['player_name'];
+            break;
+        }
+    }
 
     // Emfanisi kai topothetisi ploiwn apo ton paixth 2
     $game->displayAvailableShips();
@@ -256,9 +262,17 @@
     // Emfanisi mynhmatos ekkinishs paixnidiou
     echo("Ekkinish paixnidiou\n");
 
-    // Klisi methodou startGame()
-    $game->startGame();
+    // Loop mexris otou na prokypsei nikhths
+    while (true){
+        // Klisi methodou startGame()
+        $game->startGame();
 
-    // Orismos metavliths winner typou boolean
-    $winner = $game->checkWinner();
+        // Orismos metavliths winner typou boolean
+        $winner = $game->checkWinner();
+
+        // An den yparxei nikhths ginetai allagh seiras paixth
+        if ($winner) break;
+        else $game->switchTurn();
+
+    }
 ?>
