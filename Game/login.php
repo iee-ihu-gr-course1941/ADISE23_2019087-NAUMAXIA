@@ -12,7 +12,7 @@ function connectToDatabase(){
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        exit("Sfalma sti syndesi vasis dedomenwn: " . $e->getMessage());
+        exit("Sfalma sti syndesi vasis dedomenwn: " . $e->getMessage(). "\n");
     }
 }
 
@@ -38,6 +38,6 @@ try {
     } else echo "O xristis den yparxei\n";
     
 } catch (PDOException $e) {
-    exit("Sfalma: " . $e->getMessage());
+    exit("Sfalma: " . $e->getMessage() . "\n");
 }
 ?>
