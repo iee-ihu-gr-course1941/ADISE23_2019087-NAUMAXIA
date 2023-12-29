@@ -5,7 +5,7 @@ function connectToDatabase(){
     $host = 'localhost';
     $username = 'root';
     $password = '';
-    $dbname = 'battleship.db';
+    $dbname = 'naumaxia.db';
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
