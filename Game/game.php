@@ -4,6 +4,10 @@
         private $currentPlayer;
         private $playerShips;
         private $countMoves = 0;
+
+        // Orismos synolikwn nikwn twn 2 paixtwn
+        private $winsPl1 = 0;
+        private $winsPl2 = 0;
     
         public function __construct() {
             // Gemisma enos adeiou 10x10 pinaka 
@@ -68,13 +72,16 @@
     
                     do {
                         echo "Dwse thn arxikh seira tou $shipName: ";
-                        $startRow = (int)trim(fgets(STDIN));
+                        $handleR = fopen ("php://stdin","r");
+                        $startRow = trim(fgets($handleR));
     
                         echo "Dwse thn arxikh sthlh tou $shipName: ";
-                        $startCol = (int)trim(fgets(STDIN));
+                        $handleC = fopen ("php://stdin","r");
+                        $startCol = trim(fgets($handleC));
     
                         echo "Dwse ton prosanatolismo (h gia horizontal / v gia vertical): ";
-                        $orientation = trim(fgets(STDIN));
+                        $handleO = fopen ("php://stdin","r");
+                        $orientation = trim(fgets($handleO));
     
                         $placementResult = $this->placeShip($startRow, $startCol, $shipSize, $orientation);
     
@@ -134,10 +141,12 @@
             do {
                 // Orismos row kai column pou tha epitethei o paixths
                 echo "Dwse thn seira tou (0-10): ";
-                $row = (int)trim(fgets(STDIN));
+                $handleR = fopen ("php://stdin","r");
+                $row = trim(fgets($handleR));
 
                 echo "Dwse thn sthlh (0-10): ";
-                $col = (int)trim(fgets(STDIN));
+                $handleC = fopen ("php://stdin","r");
+                $col = trim(fgets($handleC));
 
                 // Emfanisi apotelesmatos egkiris epithesis (true/false)
                 // Klisi methodou attackCell() 
@@ -190,14 +199,18 @@
             // Elegxos an yparxei nikhths/isopalia
             if ($sunkShipsPl1 && $sunkShipsPl2){
                 echo "Isopalia metaxy twn 2 paiktwn!";
+                $winsPl1 = $this->winsPl1++;
+                $winsPl2 = $this->winsPl2++;
             }
             elseif ($sunkShipsPl1){
                 $winner = $_SESSION['player2_name'];
                 echo "Nikitis paixnidiou: $winner!";
+                $winsPl2 = $this->winsPl2++;
             }
             elseif ($sunkShipsPl2){
                 $winner = $_SESSION['player1_name'];
                 echo "Nikitis paixnidiou: $winner!";
+                $winsPl1 = $this->winsPl1++;
             }
             else return false;
 
@@ -217,6 +230,18 @@
             }
             // An den vrethei kapoio gemato keli tote epistrefei pws xtyphthikan ola ta ploia
             return true;
+        }
+
+        public function displayScore(){
+            // Orismos xrhstwn kai skor
+            $player1 = $_SESSION['player1_name'];
+            $player2 = $_SESSION['player2_name'];
+            $score1 = $this->winsPl1;
+            $score2 = $this->winsPl2;
+
+            // Emfanisi apotelesmatos
+            echo($player1 . ": " . $score1 . "\n");
+            echo($player2 . ": " . $score2 . "\n");
         }
     }
 
@@ -274,5 +299,21 @@
         if ($winner) break;
         else $game->switchTurn();
 
+    }
+
+    while(true){
+        // Emfanisi kai apanthsh mhnymatos gia to skor
+        echo "Thelete na deite to skor? (y/n)";
+        $handleS = fopen ("php://stdin","r");
+        $answer = trim(fgets($handleS));
+
+        // Elegxos ths apanthshs tou xristi
+        // An dwsei mh egkhrh apanthsh tha synexistei mexriw otou na dwthei egkyrh
+        if ($answer === "y") {
+            $game->displayScore();
+            break;
+        }
+        elseif ($answer === "n") break;
+        else ("Mh egkhrh apanthsh. Dwse pali apantisi");
     }
 ?>
