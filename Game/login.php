@@ -12,13 +12,14 @@ function connectToDatabase(){
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        exit("Sfalma sti syndesi vasis dedoemnwn: " . $e->getMessage());
+        exit("Sfalma sti syndesi vasis dedomenwn: " . $e->getMessage());
     }
 }
 
 // Eisagwgi username apo ton xristi
 echo "Dwse username: ";
-$username = trim(fgets(STDIN));
+$handle = fopen ("php://stdin","r");
+$username = fgets($handle);
 
 // Elegxos an yparxei to username ston pinaka 'users'
 try {
