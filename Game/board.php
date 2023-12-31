@@ -57,4 +57,38 @@
 		return($board);
 	}
 
+	function move_piece($x,$y,$x2,$y2,$token) {
+	
+		if($token == null || $token == '') {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"To token den oristhke."]);
+			exit;
+		}
+		
+		$turn = current_pl_turn($token);
+		if($turn == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den eisai paixths autou tou paixnidiou."]);
+			exit;
+		}
+
+		$status = read_status();
+		if($status['status'] != 'started') {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"To paixnidi den einai se drasi."]);
+			exit;
+		}
+
+		if($status['pl_turn'] != $turn) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den einai h seira sou."]);
+			exit;
+		}
+
+		$orig_board = read_board();
+		$board = convert_board($orig_board);
+
+		exit;
+	}
+
 ?>
