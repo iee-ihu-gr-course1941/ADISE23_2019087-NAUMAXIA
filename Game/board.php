@@ -57,7 +57,7 @@
 		return($board);
 	}
 
-	function move_piece($x,$y,$x2,$y2,$token) {
+	function insert_boat($x,$y,$x2,$y2,$token) {
 	
 		if($token == null || $token == '') {
 			header("HTTP/1.1 400 Bad Request");

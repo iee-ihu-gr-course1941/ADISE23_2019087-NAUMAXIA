@@ -3,7 +3,7 @@ function show_status() {
 	
 	global $mysqli;
 	
-	check_abort();
+	check_abort_status();
 	
 	$sql = 'SELECT * FROM game_status';
 	$st = $mysqli->prepare($sql);
@@ -16,7 +16,7 @@ function show_status() {
 
     }
 
-    function check_abort() {
+    function check_abort_status() {
         global $mysqli;
         
         $sql = "UPDATE game_status SET status ='aborded', result = if(pl_turn='1','2','1'),
