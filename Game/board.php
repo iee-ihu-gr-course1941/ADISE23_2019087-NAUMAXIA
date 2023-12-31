@@ -50,8 +50,8 @@
 
 		$board = [];
 
-		foreach($orig_board as $i=>&$row) {
-			$board[$row['x']][$row['y']] = &$row;
+		foreach($orig_board as $i=>&$num) {
+			$board[$num['row']][$num['col']] = &$num;
 		} 
 
 		return($board);
