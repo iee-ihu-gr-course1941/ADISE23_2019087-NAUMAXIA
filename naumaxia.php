@@ -11,8 +11,36 @@
 
     if($input==null) $input=[];  
 
-    if(isset($_SERVER['HTTP_X_TOKEN'])) $input['token']=$_SERVER['HTTP_X_TOKEN'];
-     else $input['token']='';
+    if(isset($_SERVER['HTTP_X_TOKEN'])) $input['token'] = $_SERVER['HTTP_X_TOKEN'];
+    else $input['token'] = '';
+
+    switch ($handling = array_shift($request)) {
+        case 'board' : 
+
+            switch ($handling_ships = array_shift($request)) {
+                case '':
+                case null: handle_board($method,$input);
+                            break;
+                case 'ship': handle_ship($method, $request[0],$request[1],$input);
+                            break;
+                default: header("HTTP/1.1 404 Not Found");
+                            break;
+                }
+                break;
+
+        case 'status': 
+                    if(sizeof($request)==0) handle_status($method);
+                    else header("HTTP/1.1 404 Not Found");
+                    break;
+
+        case 'players': 
+                    handle_player($method, $request,$input);
+                    break;
+
+        default:  header("HTTP/1.1 404 Not Found");
+
+        exit;
+    }
      
      function handle_board($method,$input) {
         if($method=='GET') show_board($input);
@@ -25,20 +53,36 @@
     }
 
     function handle_status($method) {
+
         if($method=='GET') show_status();
-         else header('HTTP/1.1 405 Method Not Allowed');
-        
+        else header('HTTP/1.1 405 Method Not Allowed');      
     }
 
     function handle_player($method, $pl, $input) {
+
         switch ($pl = array_shift($p)) {
+            case '':
+            case null: if($method=='GET') show_User($method);
+                       else {header("HTTP/1.1 400 Bad Request"); 
+                       print json_encode(['errormesg'=>"H methodod $method den epitrepetai edw."]);}
+            break;
+
             case '1': 
             case '2': handle_user($method, $pl, $input);
                       break;
+
             default: header("HTTP/1.1 404 Not Found");
                      print json_encode(['errormesg'=>"O paixths $pl den vrethike."]);
                      break;
         }
     }
+
+    function handle_ship($method, $row, $col, $input) {
+
+        if($method == 'GET') show_Ships($row, $col);
+        else if ($method == 'PUT') insert_ship($row, $col, $input['row'], $input['col'], $input['token']);
+        else header('HTTP/1.1 405 Method Not Allowed');
+    }
+            
 
 ?>
