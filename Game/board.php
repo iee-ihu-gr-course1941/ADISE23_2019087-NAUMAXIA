@@ -91,4 +91,17 @@
 		exit;
 	}
 
+	function show_ships($row, $col) {
+		
+		global $mysqli;
+		
+		$sql = 'SELECT * FROM board WHERE row = ? and col = ?';
+		$st = $mysqli->prepare($sql);
+		$st->bind_param('ii',$row,$col);
+		$st->execute();
+		$res = $st->get_result();
+		header('Content-type: application/json');
+		print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+	}
+
 ?>
