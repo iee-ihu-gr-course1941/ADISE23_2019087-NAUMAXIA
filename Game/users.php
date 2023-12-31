@@ -1,22 +1,28 @@
 <?php
 
     function show_all_Users(){
+
         global $mysqli;
+
 	    $sql = 'SELECT username FROM players';
 	    $st = $mysqli->prepare($sql);
 	    $st->execute();
 	    $res = $st->get_result();
+
 	    header('Content-type: application/json');
 	    print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     }
 
     function show_User($pl) {
+
         global $mysqli;
+
         $sql = 'SELECT username, pl_turn FROM players WHERE pl_turn=?';
         $st = $mysqli->prepare($sql);
         $st->bind_param('s',$pl);
         $st->execute();
         $res = $st->get_result();
+
         header('Content-type: application/json');
         print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     }
@@ -49,7 +55,7 @@
         $st2->bind_param('sss',$username,$username,$name);
         $st2->execute();
     
-    
+        update_game_status();
         $sql = 'SELECT * FROM players WHERE pl_turn =?';
         $st = $mysqli->prepare($sql);
         $st->bind_param('s',$name);
