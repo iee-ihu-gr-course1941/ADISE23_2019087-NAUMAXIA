@@ -1,14 +1,17 @@
 <?php 
     function read_board() {
+
 	    global $mysqli;
 	    $sql = 'SELECT * FROM board';
 	    $st = $mysqli->prepare($sql);
 	    $st->execute();
 	    $res = $st->get_result();
+
 	    return($res->fetch_all(MYSQLI_ASSOC));
     }
 
     function reset_board() {
+
 	    global $mysqli;
 	
 	    $sql = 'call clean_board()';
@@ -33,10 +36,10 @@
 		global $mysqli;
 	
 		$orig_board = read_board();
-		$board= convert_board($orig_board);
+		$board = convert_board($orig_board);
 		$status = read_status();
 
-		if($status['status'] =='started' && $status['pl_turn'] == $player && $player!=null) {
+		if($status['status'] =='started' && $status['pl_turn'] == $player && $player != null) {
 			//$n = add_valid_moves_to_board($board,$player);
 		}
 		header('Content-type: application/json');
@@ -44,10 +47,13 @@
 	}
 
 	function convert_board(&$orig_board) {
-		$board=[];
+
+		$board = [];
+
 		foreach($orig_board as $i=>&$row) {
 			$board[$row['x']][$row['y']] = &$row;
 		} 
+
 		return($board);
 	}
 

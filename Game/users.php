@@ -45,17 +45,20 @@
         $st->execute();
         $res = $st->get_result();
         $r = $res->fetch_all(MYSQLI_ASSOC);
+
         if($r[0]['c']>0) {
             header("HTTP/1.1 400 Bad Request");
             print json_encode(['errormesg'=>"O paixths $name exei hdh oristei."]);
             exit;
         }
+
         $sql = 'UPDATE players SET username=?, token=md5(CONCAT( ?, NOW())) WHERE pl_turn = ?';
         $st2 = $mysqli->prepare($sql);
         $st2->bind_param('sss',$username,$username,$name);
         $st2->execute();
     
         update_game_status();
+
         $sql = 'SELECT * FROM players WHERE pl_turn =?';
         $st = $mysqli->prepare($sql);
         $st->bind_param('s',$name);
@@ -67,11 +70,8 @@
     }
 
     function handle_User($method, $name, $input) {
-        if($method=='GET') {
-            show_user($name);
-        } else if($method=='PUT') {
-            set_user($name,$input);
-        }
+        if($method=='GET') show_user($name);
+        else if($method=='PUT') set_user($name,$input);      
     }
 
     function current_pl_turn($token) {
@@ -86,10 +86,8 @@
         $st->execute();
         $res = $st->get_result();
 
-        if($row=$res->fetch_assoc()) {
-            return($row['pl_turn']);
-        }
-        
+        if($row=$res->fetch_assoc()) return($row['pl_turn']);
+              
         return(null);
     }
     
