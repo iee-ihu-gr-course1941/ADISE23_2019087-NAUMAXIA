@@ -103,4 +103,12 @@
 		print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 	}
 
+	function insert_move($x,$y,$x2,$y2,$token){
+
+	}
+
+	function show_moves(){
+
+	}
+
 ?>
