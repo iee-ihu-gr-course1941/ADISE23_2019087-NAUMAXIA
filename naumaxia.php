@@ -79,7 +79,7 @@
 
     function handle_ship($method, $row, $col, $input) {
 
-        if($method == 'GET') show_Ships($row, $col);
+        if($method == 'GET') show_Ships();
         else if ($method == 'PUT') insert_ship($row, $col, $input['row'], $input['col'], $input['token']);
         else header('HTTP/1.1 405 Method Not Allowed');
     }
