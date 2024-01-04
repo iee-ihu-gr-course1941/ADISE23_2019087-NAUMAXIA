@@ -113,7 +113,6 @@
 		print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 	}
 
-	$move = 0;
 	function insert_move($row, $col, $token){
 
 		$turn = current_pl_turn($token);
@@ -123,12 +122,10 @@
 			exit;
 		}
 
-		$move = $this->move++;
-
 		global $mysqli;
 
-		if ($turn == 1) $sql = 'call MakeMove_pl1($move, $turn, $row, $col)';
-		else $sql = 'call MakeMove_pl2($move, $turn, $row, $col)';
+		if ($turn == 1) $sql = 'call MakeMove_pl1($turn, $row, $col)';
+		else $sql = 'call MakeMove_pl2($turn, $row, $col)';
 
 		$st = $mysqli->prepare($sql);
 	    $st->execute();

@@ -83,10 +83,10 @@
         }
     }
 
-    function handle_ship($method, $row, $col, $ver, $input) {
+    function handle_ship($method, $row, $col, $ori, $input) {
 
         if($method == 'GET') show_Ships();
-        else if ($method == 'PUT') insert_ship($input['row'], $input['col'], $input['ver'], 
+        else if ($method == 'PUT') insert_ship($input['row'], $input['col'], $input['ori'], 
         $input['token']);
         else header('HTTP/1.1 405 Method Not Allowed');
     }
