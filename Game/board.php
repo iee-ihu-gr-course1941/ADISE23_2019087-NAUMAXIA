@@ -1,8 +1,10 @@
 <?php 
-    function read_board() {
+    function read_board($turn) {
 
 	    global $mysqli;
-	    $sql = 'SELECT * FROM board';
+
+		if ($turn === 1) $sql = 'SELECT * FROM board_pl1';
+	    else $sql = 'SELECT * FROM board_pl2';
 	    $st = $mysqli->prepare($sql);
 	    $st->execute();
 	    $res = $st->get_result();
@@ -14,7 +16,7 @@
 
 	    global $mysqli;
 	
-	    $sql = 'call clean_board()';
+	    $sql = 'call clean_boards()';
 	    $mysqli->query($sql);	
     }
 
@@ -26,8 +28,9 @@
 
 		if($player) show_board_by_player($player);
 		 else {
+			$turn =  current_pl_turn($player['token']);
 			header('Content-type: application/json');
-			print json_encode(read_board(), JSON_PRETTY_PRINT);
+			print json_encode(read_board($turn), JSON_PRETTY_PRINT);
 		}
 	}
 
@@ -35,7 +38,8 @@
 
 		global $mysqli;
 	
-		$orig_board = read_board();
+		$turn =  current_pl_turn($player['token']);
+		$orig_board = read_board($turn);
 		$board = convert_board($orig_board);
 		$status = read_status();
 
@@ -85,7 +89,7 @@
 			exit;
 		}
 
-		$orig_board = read_board();
+		$orig_board = read_board($turn);
 		$board = convert_board($orig_board);
 
 		exit;
@@ -108,7 +112,14 @@
 	}
 
 	function show_moves(){
+		global $mysqli;
 
+		$sql = 'SELECT * FROM moves';
+	    $st = $mysqli->prepare($sql);
+	    $st->execute();
+	    $res = $st->get_result();
+
+	    return($res->fetch_all(MYSQLI_ASSOC));
 	}
 
 ?>
