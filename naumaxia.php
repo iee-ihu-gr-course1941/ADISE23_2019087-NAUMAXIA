@@ -23,7 +23,7 @@
                 case null: handle_board($method,$input);
                             break;
 
-                case 'ship': handle_ship($method, $request[0],$request[1],$input);
+                case 'ship': handle_ship($method, $request[0], $request[1], $request[2], $input);
                             break;
 
                 case 'moves': 
@@ -83,16 +83,17 @@
         }
     }
 
-    function handle_ship($method, $row, $col, $input) {
+    function handle_ship($method, $row, $col, $ver, $input) {
 
         if($method == 'GET') show_Ships();
-        else if ($method == 'PUT') insert_ship($row, $col, $input['row'], $input['col'], $input['token']);
+        else if ($method == 'PUT') insert_ship($input['row'], $input['col'], $input['ver'], 
+        $input['token']);
         else header('HTTP/1.1 405 Method Not Allowed');
     }
 
     function handle_moves($method, $row, $col, $input){
         if($method == 'GET') show_moves();
-        else if ($method == 'PUT') insert_move($row, $col, $input['row'], $input['col'], $input['token']);
+        else if ($method == 'PUT') insert_move($input['row'], $input['col'], $input['token']);
         else header('HTTP/1.1 405 Method Not Allowed');
     }
             

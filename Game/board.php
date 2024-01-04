@@ -39,6 +39,12 @@
 		global $mysqli;
 	
 		$turn =  current_pl_turn($player['token']);
+		if($turn == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den eisai paixths autou tou paixnidiou."]);
+			exit;
+		}
+
 		$orig_board = read_board($turn);
 		$board = convert_board($orig_board);
 		$status = read_status();
@@ -61,7 +67,7 @@
 		return($board);
 	}
 
-	function insert_ship($x,$y,$x2,$y2,$token) {
+	function insert_ship($row, $col, $ori, $token) {
 	
 		if($token == null || $token == '') {
 			header("HTTP/1.1 400 Bad Request");
@@ -107,7 +113,28 @@
 		print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 	}
 
-	function insert_move($x,$y,$x2,$y2,$token){
+	$move = 0;
+	function insert_move($row, $col, $token){
+
+		$turn = current_pl_turn($token);
+		if($turn == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den eisai paixths autou tou paixnidiou."]);
+			exit;
+		}
+
+		$move = $this->move++;
+
+		global $mysqli;
+
+		if ($turn == 1) $sql = 'call MakeMove_pl1($move, $turn, $row, $col)';
+		else $sql = 'call MakeMove_pl2($move, $turn, $row, $col)';
+
+		$st = $mysqli->prepare($sql);
+	    $st->execute();
+	    $res = $st->get_result();
+
+	    return($res->fetch_all(MYSQLI_ASSOC));
 
 	}
 
