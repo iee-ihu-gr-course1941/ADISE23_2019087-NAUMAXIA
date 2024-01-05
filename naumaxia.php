@@ -1,9 +1,9 @@
 <?php
 
-    require_once "Game/board.php";
-    require_once "Game/game.php";
-    require_once "Game/login.php";
-    require_once "Game/users.php";
+    require_once "lib/board.php";
+    require_once "lib/game.php";
+    require_once "lib/login.php";
+    require_once "lib/users.php";
 
     $method = $_SERVER['REQUEST_METHOD'];
     $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
