@@ -67,7 +67,7 @@
 		return($board);
 	}
 
-	function insert_ship($row, $col, $ori, $token) {
+	function insert_ship($name, $row, $col, $ori, $token) {
 	
 		if($token == null || $token == '') {
 			header("HTTP/1.1 400 Bad Request");
@@ -93,6 +93,97 @@
 			header("HTTP/1.1 400 Bad Request");
 			print json_encode(['errormesg'=>"Den einai h seira sou."]);
 			exit;
+		}
+
+		if($name == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike to onoma tou ploiou."]);
+			exit;
+		}
+
+		if($row == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike h seira."]);
+			exit;
+		} else if($row < 1 || $row > 10) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike mh egkiri seira."]);
+			exit;
+		}
+
+		if($col == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike h sthlh."]);
+			exit;
+		} else if($col < 1 || $col > 10) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike mh egkiri sthlh."]);
+			exit;
+		}
+
+		$ori = strtoupper($ori);
+
+		if($ori == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike to oriental."]);
+			exit;
+		} else if($ori != 'v' && $ori != 'h') {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike mh egkiro oriental."]);
+			exit;
+		}
+
+		global $mysqli;
+
+		$sql = 'SELECT ship_Name FROM ships WHERE ship_Name = ?';
+		$st = $mysqli->prepare($sql);
+		$st->bind_param('s',$name);
+	    $st->execute();
+	    $result = $st->get_result();
+		$res = $result->fetch_all(MYSQLI_ASSOC);
+
+		if(!$res) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike lathos to onoma tou ploiou."]);
+			exit;
+		}
+
+		switch($name){
+			case 'Carrier': $size = 5;
+			break;
+
+			case 'Battleship': $size = 4;
+			break;
+
+			case 'Cruiser': $size = 3;
+			break;
+			
+			case 'Submarine': $size = 3;
+			break;
+
+			case 'Destroyer': $size = 2; 
+			break;
+
+			default: header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike lathos to onoma tou ploiou."]);
+			exit;
+							
+		}
+
+		if ($ori === 'v'){
+			$ship_row = $row + $size;
+			if ($ship_row > 10){
+				header("HTTP/1.1 400 Bad Request");
+				print json_encode(['errormesg'=>"Dothike mh egkiri tipothetisi tou ploiou."]);
+				exit;
+			}
+		} else {
+			$ship_col = $col + $size;
+			if ($ship_col > 10){
+				header("HTTP/1.1 400 Bad Request");
+				print json_encode(['errormesg'=>"Dothike mh egkiri tipothetisi tou ploiou."]);
+				exit;
+			}
 		}
 
 		$orig_board = read_board($turn);
@@ -122,12 +213,33 @@
 			exit;
 		}
 
+		if($row == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike h seira."]);
+			exit;
+		} else if($row < 0 || $row > 10) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike mh egkiri seira."]);
+			exit;
+		}
+
+		if($col == null ) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Den dothike h sthlh."]);
+			exit;
+		} else if($col < 0 || $col > 10) {
+			header("HTTP/1.1 400 Bad Request");
+			print json_encode(['errormesg'=>"Dothike mh egkiri sthlh."]);
+			exit;
+		}
+
 		global $mysqli;
 
-		if ($turn == 1) $sql = 'call MakeMove_pl1($turn, $row, $col)';
-		else $sql = 'call MakeMove_pl2($turn, $row, $col)';
+		if ($turn == 1) $sql = 'call MakeMove_pl1(?, ?, ?)';
+		else $sql = 'call MakeMove_pl2(?, ?, ?)';
 
 		$st = $mysqli->prepare($sql);
+		$st->bind_param('sss', $turn, $row, $col);
 	    $st->execute();
 	    $res = $st->get_result();
 

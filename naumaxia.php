@@ -21,27 +21,26 @@
                 case '':
 
                 case null: handle_board($method,$input);
-                            break;
+                break;
 
-                case 'ship': handle_ship($method, $request[0], $request[1], $request[2], $input);
-                            break;
+                case 'ship': handle_ship($method, $request[0], $request[1], $request[2], $request[3], $input);
+                break;
 
-                case 'moves': 
-                            handle_moves($method, $request[0],$request[1],$inputt);
-                            break;           
+                case 'moves': handle_moves($method, $request[0],$request[1],$inputt);
+                break;     
+
                 default: header("HTTP/1.1 404 Not Found");
-                            break;
+                break;
+
                 }
                 break;
 
-        case 'status': 
-                    if(sizeof($request)==0) handle_status($method);
+        case 'status': if(sizeof($request)==0) handle_status($method);
                     else header("HTTP/1.1 404 Not Found");
-                    break;
+        break;
 
-        case 'players': 
-                    handle_player($method, $request,$input);
-                    break;
+        case 'players': handle_player($method, $request,$input);
+        break;
 
         default:  header("HTTP/1.1 404 Not Found");
 
@@ -83,10 +82,10 @@
         }
     }
 
-    function handle_ship($method, $row, $col, $ori, $input) {
+    function handle_ship($method, $name, $row, $col, $ori, $input) {
 
         if($method == 'GET') show_Ships();
-        else if ($method == 'PUT') insert_ship($input['row'], $input['col'], $input['ori'], 
+        else if ($method == 'PUT') insert_ship($input['name'], $input['row'], $input['col'], $input['ori'], 
         $input['token']);
         else header('HTTP/1.1 405 Method Not Allowed');
     }
