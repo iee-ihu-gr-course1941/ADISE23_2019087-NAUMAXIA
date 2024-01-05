@@ -50,7 +50,7 @@
 		$status = read_status();
 
 		if($status['status'] =='started' && $status['pl_turn'] == $player && $player != null) {
-			//$n = add_valid_moves_to_board($board,$player);
+			//$count_Hits = check_Total_hits($board);
 		}
 		header('Content-type: application/json');
 		print json_encode($orig_board, JSON_PRETTY_PRINT);
@@ -189,6 +189,12 @@
 		$orig_board = read_board($turn);
 		$board = convert_board($orig_board);
 
+		foreach($board[$row][$col]['status'] as $i=>$status) {
+			if($row==$status['row'] && $col==$status['col']) 
+			complete_insertion($row, $col, $ori, $size, $board, $turn);
+			
+		}
+
 		exit;
 	}
 
@@ -233,13 +239,22 @@
 			exit;
 		}
 
+		$orig_board = read_board($turn);
+		$board = convert_board($orig_board);
+
+		foreach($board[$row][$col]['status'] as $i=>$status) {
+			if($board[$row][$col]['status'] === 1) {
+				$board[$row][$col]['status'] = -1;
+			}
+		}
+
 		global $mysqli;
 
 		if ($turn == 1) $sql = 'call MakeMove_pl1(?, ?, ?)';
 		else $sql = 'call MakeMove_pl2(?, ?, ?)';
 
 		$st = $mysqli->prepare($sql);
-		$st->bind_param('sss', $turn, $row, $col);
+		$st->bind_param('iii', $turn, $row, $col);
 	    $st->execute();
 	    $res = $st->get_result();
 
@@ -252,6 +267,51 @@
 
 		$sql = 'SELECT * FROM moves';
 	    $st = $mysqli->prepare($sql);
+	    $st->execute();
+	    $res = $st->get_result();
+
+	    return($res->fetch_all(MYSQLI_ASSOC));
+	}
+
+	function check_Total_hits($row, $col, $board){
+
+		$total_hits = 0;
+		foreach($board[$row][$col]['status'] as $i=>$status) {
+			if($board[$row][$col]['status'] === -1) {				
+				$total_hits++;
+			}
+		}
+
+		return($total_hits);
+	}
+
+	function complete_insertion($row, $col, $ori, $size, $board, $turn){
+
+		if($ori === 'v'){
+			foreach($board[$row][$col]['status'] as $i=>$status) {
+				if($col==$status['col']) {
+					for ($i = 0; $i < $size; $i++) {
+						$board[$row + $i][$col]['status'] = 1;
+					}
+				}
+			}
+		} else{
+			foreach($board[$row][$col]['status'] as $i=>$status) {
+				if($row==$status['row'] ) {
+					for ($i = 0; $i < $size; $i++) {
+						$board[$row][$col + $i]['status'] = 1;
+					}
+				}
+			}
+		}
+
+		global $mysqli;
+
+		if ($turn == 1) $sql = 'call board_pl1_insertion(?)';
+		else $sql = 'call board_pl1_insertion(?)';
+
+		$st = $mysqli->prepare($sql);
+		$st->bind_param('s', $board);
 	    $st->execute();
 	    $res = $st->get_result();
 
