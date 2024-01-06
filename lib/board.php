@@ -35,8 +35,6 @@
 	}
 
 	function show_board_by_player($player) {
-
-		global $mysqli;
 	
 		$turn =  current_pl_turn($player['token']);
 		if($turn == null ) {
@@ -333,11 +331,10 @@
 
 		global $mysqli;
 
-		if ($turn === 1) $sql = 'call board_pl1_set(?, ?)';
-		else $sql = 'call board_pl2_set(?, ?)';
+		$sql = 'call board_set(?, ?, ?)';
 	
 		$st = $mysqli->prepare($sql);
-		$st->bind_param('ii', $row, $col);
+		$st->bind_param('iii', $row, $col, $turn);
 		$st->execute();
 		$res = $st->get_result();
 
