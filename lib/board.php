@@ -48,10 +48,39 @@
 		$status = read_status();
 
 		if($status['status'] =='started' && $status['pl_turn'] == $player && $player != null) {
-			//$count_Hits = check_Total_hits($board);
+			$count_Hits = check_Total_hits($board);
+
+			if ($count_Hits === 17){
+				echo 'Exases!';
+
+				$count_Hits = 0;
+				$end_status = 'ended';
+
+				if($turn === 1) $winner = 2;
+				else $winner = 1;
+
+				global $mysqli;
+
+				$sql = 'UPDATE game_status SET status = ?, pl_turn = NULL, result = ?';
+				$st = $mysqli->prepare($sql);
+				$st->bind_param('si', $end_status, $winner);
+				$st->execute();
+				$res = $st->get_result();
+
+				header('Content-type: application/json');
+				print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+
+				header('Content-type: application/json');
+				print json_encode(insert_Score($winner), JSON_PRETTY_PRINT);
+
+				exit;				
+			}
 		}
+
 		header('Content-type: application/json');
 		print json_encode($orig_board, JSON_PRETTY_PRINT);
+
+		exit;
 	}
 
 	function convert_board(&$orig_board) {
@@ -203,8 +232,11 @@
 		$st = $mysqli->prepare($sql);
 		$st->execute();
 		$res = $st->get_result();
+
 		header('Content-type: application/json');
 		print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+
+		exit;
 	}
 
 	function insert_move($row, $col, $token){
@@ -260,28 +292,21 @@
 	    $st->execute();
 	    $res = $st->get_result();
 
-	    return($res->fetch_all(MYSQLI_ASSOC));
+	    header('Content-type: application/json');
+	    print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+
+		exit;
 
 	}
 
-	function show_moves(){
-		global $mysqli;
-
-		$sql = 'SELECT * FROM moves';
-	    $st = $mysqli->prepare($sql);
-	    $st->execute();
-	    $res = $st->get_result();
-
-	    return($res->fetch_all(MYSQLI_ASSOC));
-	}
-
-	function check_Total_hits($row, $col, $board){
+	function check_Total_hits($board){
 
 		$total_hits = 0;
-		foreach($board[$row][$col]['status'] as $i=>$status) {
-			if($board[$row][$col]['status'] === -1) {				
-				$total_hits++;
-			}
+
+		for ($i = 0; $i < 10; $i++) {
+			for ($j = 0; $j < 10; $j++) {
+				if($board[$i][$j]['status'] === -1) $total_hits++;				
+			}			
 		}
 
 		return($total_hits);
@@ -301,13 +326,15 @@
 					}
 					for ($i = 0; $i < $size; $i++) {
 						$board[$row + $i][$col]['status'] = 1;
-						insert_dB($row + $i, $col, $turn);
+
+						header('Content-type: application/json');
+	    				print json_encode(insert_dB($row, $col + $i, $turn), JSON_PRETTY_PRINT);
 					}
 				}
 			}
 		} else{
 			foreach($board[$row][$col]['status'] as $i=>$status) {
-				if($row==$status['row'] ) {
+				if($row == $status['row'] ) {
 					for ($i = 0; $i < $size; $i++) {
 						if ($board[$row][$col + $i]['status'] === 1){
 							header("HTTP/1.1 400 Bad Request");
@@ -317,7 +344,9 @@
 					}
 					for ($i = 0; $i < $size; $i++) {
 						$board[$row][$col + $i]['status'] = 1;
-						insert_dB($row, $col + $i, $turn);
+
+						header('Content-type: application/json');
+	    				print json_encode(insert_dB($row, $col + $i, $turn), JSON_PRETTY_PRINT);
 					}
 				}
 			}
@@ -335,6 +364,18 @@
 	
 		$st = $mysqli->prepare($sql);
 		$st->bind_param('iii', $row, $col, $turn);
+		$st->execute();
+		$res = $st->get_result();
+
+		return($res->fetch_all(MYSQLI_ASSOC));
+	}
+
+	function insert_Score($w){
+		global $mysqli;
+
+		$sql = 'UPDATE scoreboard AS s SET Score = s.Score + 1 WHERE Player = ?';
+		$st = $mysqli->prepare($sql);
+		$st->bind_param('i', $w);
 		$st->execute();
 		$res = $st->get_result();
 

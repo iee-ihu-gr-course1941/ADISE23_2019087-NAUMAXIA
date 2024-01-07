@@ -17,9 +17,9 @@
 
         global $mysqli;
 
-        $sql = 'SELECT username, pl_turn FROM players WHERE pl_turn=?';
+        $sql = 'SELECT username, pl_turn FROM players WHERE pl_turn = ?';
         $st = $mysqli->prepare($sql);
-        $st->bind_param('s',$pl);
+        $st->bind_param('s', $pl);
         $st->execute();
         $res = $st->get_result();
 
@@ -64,6 +64,7 @@
         $st->bind_param('s',$name);
         $st->execute();
         $res = $st->get_result();
+
         header('Content-type: application/json');
         print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);     
         

@@ -20,7 +20,7 @@
             switch ($handling_ships = array_shift($request)) {
                 case '':
 
-                case null: handle_board($method,$input);
+                case null: handle_board($method, $input);
                 break;
 
                 case 'ship': handle_ship($method, $request[0], $request[1], $request[2], $request[3], $input);
@@ -39,7 +39,10 @@
                     else header("HTTP/1.1 404 Not Found");
         break;
 
-        case 'players': handle_player($method, $request,$input);
+        case 'players': handle_player($method, $request, $input);
+        break;
+
+        case 'score': handle_score($method);
         break;
 
         default:  header("HTTP/1.1 404 Not Found");
@@ -69,7 +72,7 @@
             case '':
             case null: if($method=='GET') show_User($method);
                        else {header("HTTP/1.1 400 Bad Request"); 
-                       print json_encode(['errormesg'=>"H methodod $method den epitrepetai edw."]);}
+                       print json_encode(['errormesg'=>"H methodos $method den epitrepetai edw."]);}
             break;
 
             case '1': 
@@ -93,6 +96,11 @@
     function handle_moves($method, $row, $col, $input){
         if($method == 'GET') show_moves();
         else if ($method == 'POST') insert_move($input['row'], $input['col'], $input['token']);
+        else header('HTTP/1.1 405 Method Not Allowed');
+    }
+
+    function handle_score($method){
+        if($method == 'GET') show_score();
         else header('HTTP/1.1 405 Method Not Allowed');
     }
             
